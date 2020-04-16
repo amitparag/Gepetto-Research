@@ -38,7 +38,30 @@ def circular(r=[2], n=[100]):
         circles.append(np.c_[x, y, z])
     return np.array(circles).squeeze()
 
+def _crocoddyl():
+    """
+    Returns trajectories starting from the circumference of a circle
+    
+    """
+    xtest = circular()
+    cost = []
+    trajectory = []
+    iterations = []
+    for xyz in xtest:
+        model = crocoddyl.ActionModelUnicycle()
+        T = 90
+        model.costWeights = np.matrix([1,1]).T
+        problem = crocoddyl.ShootingProblem(m2a(xyz).T, [ model ] * T, model)
+        ddp = crocoddyl.SolverDDP(problem)
+        ddp.solve([], [], 1000)
+        if ddp.iter < 100:
+            xs_ = np.array(ddp.xs)
+            xs = xs_[:,0:2]
+            cost.append(ddp.cost)
+            trajectory.append(xs)
+            iterations.append(ddp.iter)
 
+    return cost, trajectory, iterations
 
 
 def circular_crocoddyl():
@@ -111,7 +134,7 @@ def circular_terminal_net(net, remove_outliers = False):
 
     return cost, trajectory, iterations
 
-def plot_trajectories(cost, trajectories, name = "Cost", savename=None ):
+def plot_trajectories(cost, trajectories, name = "Cost", savename=None, title=None ):
     """
     
     @params:
@@ -145,6 +168,8 @@ def plot_trajectories(cost, trajectories, name = "Cost", savename=None ):
 
     plt.xlabel("X Coordinates", fontsize = 20)
     plt.ylabel("Y Coordinates", fontsize = 20)
+    if title:
+        plt.title(title)
     plt.colorbar(cmap).set_label(name, labelpad=2, size=15)
     if savename is not None:
         plt.savefig(savename+".png")
