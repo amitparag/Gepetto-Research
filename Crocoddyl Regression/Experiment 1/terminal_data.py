@@ -86,8 +86,8 @@ def plot_utils(y_true, y_pred, size =35, name  = 'cost', savefig=True):
     plt.colorbar().set_label('Error', labelpad=2, size = 15)
     plt.subplots_adjust(hspace=0.25)
 
-    if savefig:
-        plt.savefig(name + "TerminalCrocoddyl.png")
+    #if savefig:
+    #    plt.savefig(name + "TerminalCrocoddyl.png")
 
     plt.show()
     plt.close()

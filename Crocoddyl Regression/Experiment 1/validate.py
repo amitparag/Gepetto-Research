@@ -14,7 +14,7 @@ def validate_and_plot(net, plot_data = True, plot_error= True):
     """
     net.eval()
     
-    xrange = np.linspace(-2.,2.,100)
+    xrange = np.linspace(-2,2,100)
     xtest = torch.tensor([ [x1,x2, 0.] for x1 in xrange for x2 in xrange ], dtype = torch.float32)
 
     with torch.no_grad():
@@ -31,7 +31,7 @@ def validate_and_plot(net, plot_data = True, plot_error= True):
     if plot_data:
         print("\n Plot of ddp.cost from plain crocoddyl and cost predicted by Neural Network")
         plt.set_cmap('plasma')
-        plt.figure(figsize=[10,12])
+        plt.figure(figsize=[15,10])
 
         trange = [ min(y_true),max(y_true) ]
         prange = [ min(y_pred),max(y_pred) ]

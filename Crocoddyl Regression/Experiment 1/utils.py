@@ -171,6 +171,6 @@ def plot_trajectories(cost, trajectories, name = "Cost", savename=None, title=No
     if title:
         plt.title(title)
     plt.colorbar(cmap).set_label(name, labelpad=2, size=15)
-    if savename is not None:
-        plt.savefig(savename+".png")
+    #if savename is not None:
+    #    plt.savefig(savename+".png")
     plt.show()

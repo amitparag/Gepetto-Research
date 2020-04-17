@@ -27,7 +27,7 @@ class FeedForwardNet(nn.Module):
                  input_features,
                  output_features,
                  n_hidden_units = 512,
-                 activation = 'relu'):
+                 activation = 'tanh'):
         
         
         """
