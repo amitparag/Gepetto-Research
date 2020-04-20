@@ -12,7 +12,7 @@ from tqdm import tqdm
 from data import get_data
 from neural_net import FeedForwardNet
 
-def train(nhiddenUnits = 512, epochs= 10000, batchsize:int = 1000, lr = 1e-3):
+def train(nhiddenUnits = 512, datasize = 1000, epochs= 10000, batchsize:int = 1000, lr = 1e-3):
     """
     
     Generates and returns a trained neural network
@@ -23,7 +23,7 @@ def train(nhiddenUnits = 512, epochs= 10000, batchsize:int = 1000, lr = 1e-3):
     
     
     # Make data and create a data generator to be used in training
-    xtrain, ytrain = get_data(1000)
+    xtrain, ytrain = get_data(datasize)
     dataset = torch.utils.data.TensorDataset(xtrain,ytrain)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size = batchsize) # DataGenerator
 

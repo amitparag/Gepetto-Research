@@ -102,16 +102,15 @@ def circular_terminal_net(net, remove_outliers = False):
     trajectory = []
     iterations = []
     
-    i = 0
 
-   
+    model = crocoddyl.ActionModelUnicycle()
+    terminal_model = UnicycleTerminal(net)
+    T = 30
+    model.costWeights = np.matrix([1,1]).T
+    
     
     for xyz in xtest:
-        model = crocoddyl.ActionModelUnicycle()
-        terminal_model = UnicycleTerminal(net)
-        T = 30
-        model.costWeights = np.matrix([1,1]).T
-    
+        
 
         problem = crocoddyl.ShootingProblem(m2a(xyz).T, [ model ] * T, terminal_model)
         ddp = crocoddyl.SolverDDP(problem)
@@ -171,6 +170,6 @@ def plot_trajectories(cost, trajectories, name = "Cost", savename=None, title=No
     if title:
         plt.title(title)
     plt.colorbar(cmap).set_label(name, labelpad=2, size=15)
-    #if savename is not None:
-    #    plt.savefig(savename+".png")
+    if savename is not None:
+        plt.savefig("./images/"+savename+".png")
     plt.show()

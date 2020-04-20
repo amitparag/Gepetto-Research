@@ -7,7 +7,7 @@ from data import get_crocoddyl_cost
 from utils import *
 
 
-def validate_and_plot(net, plot_data = True, plot_error= True):
+def validate_and_plot(net, plot_data = True, plot_error= True, savename=None):
     """
     Returns the validation score(MSE) and scatter of error between V(x) and Net(x) 
     
@@ -29,9 +29,9 @@ def validate_and_plot(net, plot_data = True, plot_error= True):
     y_true = y_true.numpy()
     
     if plot_data:
-        print("\n Plot of ddp.cost from plain crocoddyl and cost predicted by Neural Network")
+        print("\n Plot of ddp.cost from plain crocoddyl and value function predicted by Neural Network")
         plt.set_cmap('plasma')
-        plt.figure(figsize=[15,10])
+        plt.figure(figsize=[12,10])
 
         trange = [ min(y_true),max(y_true) ]
         prange = [ min(y_pred),max(y_pred) ]
@@ -50,8 +50,10 @@ def validate_and_plot(net, plot_data = True, plot_error= True):
         plt.scatter(xtest[:,0],xtest[:,1],c=y_pred.flat,vmin=vrange[0],vmax=vrange[1])
         plt.colorbar().set_label("cost",labelpad=2, size=15)
         plt.title('Neural Network Predictions')
-        #plt.savefig("NetvsCrocoddyl.png")
         plt.subplots_adjust(hspace=0.25)
+
+        if savename is not None:
+            plt.savefig("./images/"+savename+".png")
         plt.show()
         plt.close()
         
@@ -69,6 +71,6 @@ def validate_and_plot(net, plot_data = True, plot_error= True):
         plt.scatter(xtest[:,0],xtest[:,1],c=z.flat)
         plt.title("Crocoddyl(x) - Neural_Net(x)")
         plt.colorbar().set_label('Error', labelpad=2, size = 15)
-        #plt.savefig("NetvsCrocoddylscatterError.png")
+        plt.savefig("./images/error"+savename+".png")
         plt.show()
         plt.close()
